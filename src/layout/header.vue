@@ -1,68 +1,43 @@
 <template>
   <div class="ly-header">
     <div class="part-left">
-      <p>{{ _getUserInfo.sellerName }}，欢迎您使用云配商家后台系统!</p>
+      <p>{{ infor.sellerName }}，欢迎您使用云配商家后台系统!</p>
     </div>
     <div class="part-right">
-      <el-dropdown
-        v-if="isLogin"
-      >
-        <span class="el-dropdown-link">
+      <dl class="login-infor">
+        <dt>
           <i class="el-icon-user-solid el-icon--left" />
-          {{ _getUserInfo.sellerId }}
+          <span>{{ infor.sellerId }}</span>
           <i class="el-icon-caret-bottom el-icon--right" />
-        </span>
-
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item @click="logoutHandler">
-            <i class="el-icon-switch-button el-icon--left" /> 退出
-          </el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
+        </dt>
+        <dd>
+          <ul>
+            <li @click="logoutHandler">
+              <i class="el-icon-right el-icon--left" /> 退出
+            </li>
+          </ul>
+        </dd>
+      </dl>
     </div>
   </div>
 </template>
 <script>
-import { mapActions,mapGetters } from 'vuex'
 export default {
   name: 'LyHeader',
   data () {
     return {
-      icon: require('@/assets/images/user.png'),
+      infor: window.BSGlobal && window.BSGlobal.getUserInfo ? window.BSGlobal.getUserInfo :{},
       isLogin: false
     }
   },
-  computed: {
-    ...mapGetters([
-      '_getUserInfo'
-    ])
-  },
-  created () {
-    this.getUserInfo()
-  },
   methods: {
-    ...mapActions([
-      '_ationsUserInfo'
-    ]),   
-    getUserInfo() {
-      this.$ajax({
-        url: '/brilliant/common/getUserInfo',
-        showLoading: false,
-        success: res => {
-          if (res.success) {
-            this.isLogin = true
-            this._ationsUserInfo(res.data)
-          }
-        }
-      })
-    },
     logoutHandler () {
-      this.$jsonp('https://zs.360cec.com/idp/logout', {}).then( () => {
+      this.$jsonp('https://zs.360cec.com/idp/logout',
+      ).then( () => {
         window.location.href = '/xxx/logout'
+      }).catch(err => {
+        console.error(err)
       })
-        .catch(err => {
-          console.error(err)
-        })
     }
   }
 }
@@ -77,51 +52,112 @@ export default {
   flex-shrink: 0;
   justify-content:space-between;
   align-items: center;
+  color: #8098b0;
   .part-left{
     padding-left:12px;
     line-height: 30px;
     border-left:1px solid #eaedf4;
-    color: #8098b0;
     font-size:12px;
   }
   .part-right{
     display: flex;
     align-items: center;
     height: 100%;
-    .el-dropdown{
+    .login-infor{
+      position: relative;
       display: flex;
       height:100%;
       align-items: center;
-      padding-left:12px;
-      border-left:1px solid #eaedf4;
-      color: #8098b0;
-      cursor: pointer;
       font-size:13px;
-      .el-dropdown-link {
+      &:hover{
+        dt{
+          background: #f2f3f5;
+          .el-icon-caret-bottom{
+            transform: rotate(-180deg);
+          }
+        }
+        dd{
+          top:100%;
+          visibility: visible;
+        }
+      }
+      dt {
         display: flex;
         align-items: center;
+        height:100%;
+        min-width: 100px;
+        max-width: 200px;
+        padding:0 12px;
+        box-sizing: border-box;
+        border-left:1px solid #eaedf4;
+        cursor: pointer;
         .el-icon-user-solid{
           border:1px solid #8098b0;
           padding:1px;
           border-radius: 50%;
         }
+        .el-icon-caret-bottom{
+          transition: all 0.4s ease-in-out 0s;
+        }
+        span{
+          flex-grow: 1;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+      }
+      dd{
+        z-index: 5;
+        position: absolute;
+        left:0;
+        top:70%;
+        width:100%;
+        background: #ffffff;
+        border:1px solid #eaedf4;
+        transition: all 0.4s ease-in-out 0s;
+        visibility: hidden;
+        ul{
+          max-height: 270px;
+          overflow-x: hidden;
+          overflow-y: auto;
+          li{
+            display: flex;
+            align-items: center;
+            padding-left:12px;
+            line-height: 40px;
+            color: #8098b0;
+            &:hover{
+              color: #ffffff;
+              background-color: #02aadb;
+              .el-icon-right{
+                &:after{
+                  border-color:#ffffff;
+                }
+              }
+            }
+            .el-icon-right{
+              position: relative;
+              padding-left:5px;
+              font-weight: bold;
+              &:before{
+                position: relative;
+                z-index: 1;
+              }
+              &:after{
+                position: absolute;
+                left:0px;
+                top:-1px;
+                width:8px;
+                height:13px;
+                content:'';
+                border:1px solid #8098b0;
+              }
+            }
+          }
+        }
       }
     }
   }
 }
-.el-dropdown-menu{
-  transform: translateY(-14px);
-  padding:0;
-  line-height: 40px;
-  .el-dropdown-menu__item{
-    color: #8098b0;
-    &:hover{
-      color: #ffffff;
-      background-color: #02aadb;
-    }
-  }
-  .popper__arrow{
-    display:none;
-  }
-}
+
 </style>

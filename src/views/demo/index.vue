@@ -352,6 +352,7 @@
 import utils from '@/assets/js/utils'
 import CpCrumbs from '@/components/crumbs/'
 import CpSeeimages from '@/components/seeimages/'
+import ajax from '@/service/modules/demo'
 
 export default {
   components: {
@@ -417,21 +418,16 @@ export default {
     },
     //搜索客户
     querySearchAsync(queryString, cb) {
-      this.$ajax({
-        url: '/brilliant/common/search',
-        type: 'get',
-        data: {
-          content: utils.trim(queryString).slice(0,50),
-          page: 1,
-          pageSize: 10
-        },
-        success: res => {
-          if(res.success) {
-            if(res.data && res.data.length > 0) {
-              cb(res.data)
-            }else {
-              cb([{ companyName: `未找到与 “${ queryString }” 相关的信息` }])
-            }
+      ajax.searchtList({
+        content: utils.trim(queryString),
+        page: 1,
+        pageSize: 10
+      }).then((res)=>{
+        if(res.success) {
+          if(res.data && res.data.length > 0) {
+            cb(res.data)
+          }else {
+            cb([{ companyName: `未找到与 “${ queryString }” 相关的信息` }])
           }
         }
       })
@@ -464,29 +460,24 @@ export default {
       this.$router.push({ name: 'test01Detail' })
     },
     getList() {
-      this.$ajax({
-        url: '/brilliant/common/tableList',
-        type: 'get',
-        errorTips: false,
-        data: {
-          ...utils.filterParams(this.query),
-          pageSize: this.pageSize,
-          page: this.currentPage
-        },
-        success: res => {
-          if (res.success) {
-            this.count = res.data.totalElements
-            if (res.data.content && res.data.content.length > 0) {
-              this.queryList = res.data.content
-            } else {
-              this.queryList = []
-            }
+      ajax.getList({
+        ...utils.filterParams(this.query),
+        pageSize: this.pageSize,
+        page: this.currentPage
+      }).then((res)=>{
+        if (res.success) {
+          this.count = res.data.totalElements
+          if (res.data.content && res.data.content.length > 0) {
+            this.queryList = res.data.content
           } else {
             this.queryList = []
-          }   
-        }
+          }
+        } else {
+          this.queryList = []
+        }   
+
       })
-    }
+    },
   }
 }
 </script>

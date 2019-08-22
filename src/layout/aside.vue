@@ -44,7 +44,7 @@ export default {
   data() {
     return {
       listMenu: [],
-      listPermission: this.$store.state.User.listPermission,
+      listPermission: window.BSGlobal && window.BSGlobal.listMenu ? window.BSGlobal.listMenu :{},
       defaultActive: null,
       isCollapse: false
     }

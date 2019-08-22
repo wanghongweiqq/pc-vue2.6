@@ -1,7 +1,4 @@
 import Vue from 'vue'
-import store from '@/store'
-import ajax from '@/assets/js/axios'
-
 import Router from 'vue-router'
 import demo from './routes/demo'
 import common from './routes/common'
@@ -26,24 +23,10 @@ router.beforeEach((to,from,next) => {
   }
   // 需要设置权限。并且权限未开通。
   if (to.meta.key) {
-    if (!Object.keys(store.state.User.listPermission).length) {
-      ajax({
-        url: '/hawk/pvg/role/listMenu',
-        showLoading: false,
-        success: res => {
-          if (res.success&&res.data) {
-            res.data.MENU_HAWK_OPEN= true 
-            store.dispatch('_ationsListPermission',res.data)
-            if (!store.state.User.listPermission[to.meta.key]) {
-              next({ name: '403' })
-            } 
-          }
-        }
-      })
-    } else {
-      if (!store.state.User.listPermission[to.meta.key]) {
-        next({ name: '403' })
-      }
+    let listMenu = window.BSGlobal && window.BSGlobal.listMenu ? window.BSGlobal.listMenu :{}
+    listMenu.MENU_HAWK_OPEN= true 
+    if (!listMenu[to.meta.key]) {
+      next({ name: '403' })
     }
   } 
   next()

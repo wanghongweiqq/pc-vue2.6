@@ -18,7 +18,7 @@ export default {
   }
   >.fade-enter, >.fade-leave-to{
     opacity : 0;
-    transform: translate(0,-100px);
+    transform: translate(0,0px);
   }
 }
 </style>

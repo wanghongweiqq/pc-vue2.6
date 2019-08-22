@@ -3,7 +3,7 @@ import App from './App.vue'
 import router from './router/index'
 import store from './store/'
 import '@/assets/css/global.scss'
-import ajax from '@/assets/js/axios'
+import ajax from '@/service/axios'
 import ElementUI from 'element-ui'
 // 覆盖element样式
 // import 'element-ui/lib/theme-chalk/index.css'

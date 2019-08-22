@@ -99,8 +99,10 @@ export default {
   },
   //去掉左右空格
   trim(val) {
-    const reg=/(^\s*)|(\s*$)/g
-    return val.replace(reg,'')
+    if(val) {
+      const reg=/(^\s*)|(\s*$)/g
+      return val.replace(reg,'')
+    }
   },
   //过滤查询参数
   filterParams(obj) {
@@ -109,14 +111,8 @@ export default {
     Object.keys(obj).map((key)=>{
       if(typeof(obj[key])==='string') {
         obj[key]=obj[key].replace(reg,'')
-        console.log('00000')
       }
-      console.log('1111111')
-      console.log(obj[key])
-      console.log(obj[key]==='')
       if (typeof(obj[key])==='string'&&obj[key]!==''||typeof(obj[key])!=='string'&&Object.prototype.toString.call(obj[key])!=='[object Array]'&&obj[key]!==null&&obj[key]!==undefined&&!isNaN(obj[key])) {
-        console.log('22222')
-
         params[key] = obj[key]
       }
     })    
