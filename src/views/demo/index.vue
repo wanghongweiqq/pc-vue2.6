@@ -49,8 +49,8 @@
               />
             </el-form-item>
             <el-form-item label="下拉选项:">
-              <el-select 
-                v-model="query.select" 
+              <el-select
+                v-model="query.select"
                 clearable
               >
                 <el-option
@@ -107,8 +107,8 @@
               />
             </el-form-item>
             <el-form-item label="下拉选项:">
-              <el-select 
-                v-model="query.select" 
+              <el-select
+                v-model="query.select"
                 clearable
               >
                 <el-option
@@ -121,21 +121,21 @@
             </el-form-item>
           </el-form>
           <div class="button-bar">
-            <el-button 
-              size="small" 
+            <el-button
+              size="small"
               type="primary"
               @click="handleSearch"
             >
               确定筛选
             </el-button>
-            <el-button 
-              size="small" 
+            <el-button
+              size="small"
               @click="clearSearch"
             >
               重置筛选
             </el-button>
-            <el-button 
-              size="small" 
+            <el-button
+              size="small"
               @click="goDetail"
             >
               跳转详情
@@ -280,33 +280,33 @@
             fixed="right"
           >
             <template slot-scope="scope">
-              <el-button 
+              <el-button
                 size="mini"
-                type="primary" 
+                type="primary"
                 plain
               >
                 设置额度
               </el-button>
-              <el-button 
-                type="primary" 
+              <el-button
+                type="primary"
                 plain
-                size="mini" 
+                size="mini"
                 @click="imageOpen"
               >
                 查看大图
               </el-button>
-              <el-button 
+              <el-button
                 v-if="scope.row.accountPeriodStatus===0"
                 size="mini"
-                type="danger" 
+                type="danger"
                 plain
               >
                 停止
               </el-button>
-              <el-button 
+              <el-button
                 v-else
                 size="mini"
-                type="success" 
+                type="success"
                 plain
               >
                 开启
@@ -325,22 +325,22 @@
           @current-change="handleCurrentChange"
         />
       </div>
-      <cp-seeimages 
+      <cp-seeimages
         :image-show.sync="showImg"
-        :image-data="imageData" 
-        :image-index="imageIndex" 
+        :image-data="imageData"
+        :image-index="imageIndex"
       />
     </div>
     <div class="bottom-bar">
-      <el-button 
-        size="mini" 
+      <el-button
+        size="mini"
         type="primary"
         @click="handleSearch"
       >
         确定筛选
       </el-button>
-      <el-button 
-        size="mini" 
+      <el-button
+        size="mini"
         @click="clearSearch"
       >
         重置筛选
@@ -375,7 +375,7 @@ export default {
       //   'http://img.yunpei.com/images/operation/156163104408985156.jpg',
       //   'http://img.yunpei.com/images/operation/155591941925425462.jpg',
       //   'http://img.yunpei.com/images/operation/156163104408985156.jpg'
-      // ],      
+      // ],
       imageData: [
         {
           src: 'http://img.yunpei.com/images/operation/156163104408985156.jpg',
@@ -474,7 +474,7 @@ export default {
           }
         } else {
           this.queryList = []
-        }   
+        }
 
       })
     },
@@ -482,7 +482,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .bottom-bar{
   border-top:1px solid #d9d9d9;
   padding:10px 0 10px 30px;
