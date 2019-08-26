@@ -95,7 +95,7 @@ export default {
       customerLimit: null,//修改后的额度
       customerDetail: null,
     }
-  },  
+  },
   computed: {
     ...mapGetters([
       '_getUserInfo'
