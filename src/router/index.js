@@ -3,10 +3,14 @@ import Router from 'vue-router'
 import common from './routes/common'
 import demo from './routes/demo'
 import demo1 from './routes/demo1'
-
+// 重写路由的push方法，fix在路由中添加了相同的路由
+const routerPush = Router.prototype.push
+Router.prototype.push = function push (location) {
+  return routerPush.call(this, location).catch(error => error)
+}
 Vue.use(Router)
-
 const router = new Router({
+  mode: 'history',
   routes: [
     common,
     demo,
