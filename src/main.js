@@ -32,7 +32,7 @@ Vue.use(Link)
 Vue.prototype.$message = Message
 Vue.prototype.$confirm = MessageBox.confirm
 Vue.prototype.$alert = MessageBox.alert
-Vue.config.productionTip = false
+// Vue.config.productionTip = false
 new Vue({
   router,
   store,

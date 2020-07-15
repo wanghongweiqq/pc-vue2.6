@@ -1,8 +1,8 @@
 <template>
   <aside class="ly-aside">
-    <i 
+    <i
       :class="['btn-menu',isCollapse? 'el-icon-s-unfold':'el-icon-s-fold']"
-      @click="menuToggle" 
+      @click="menuToggle"
     />
     <router-link
       :class="['logo',isCollapse?'logo-small':'logo-big']"
@@ -41,29 +41,29 @@ import routers from '@/router'
 
 export default {
   name: 'LyAside',
-  data() {
+  data () {
     return {
       listMenu: [],
-      listPermission: window.BSGlobal && window.BSGlobal.listMenu ? window.BSGlobal.listMenu :{},
+      listPermission: window.BSGlobal && window.BSGlobal.listMenu ? window.BSGlobal.listMenu : {},
       defaultActive: null,
       isCollapse: false
     }
   },
   watch: {
-    $route() {
+    $route () {
       this.checkDefaultActive()
     },
   },
-  created() {
+  created () {
     this.getMenuList()
   },
   methods: {
-    //获取菜单列表
-    getMenuList() {
+    // 获取菜单列表
+    getMenuList () {
       let list = []
-      routers.options.routes.map((item)=>{
+      routers.options.routes.map((item) => {
         let arr = []
-        item.children.map((subItem)=>{
+        item.children && item.children.map((subItem) => {
           let obj = subItem.meta
           if(obj) {
             if (obj.hidden) {
@@ -71,12 +71,12 @@ export default {
             }
             if (this.listPermission[obj.key]) {
               if(obj.notvue) {
-                subItem.fullPath=subItem.path
+                subItem.fullPath = subItem.path
               }else{
-                if(subItem.path.indexOf('/')===0) {
-                  subItem.fullPath=item.path+subItem.path
+                if(subItem.path.indexOf('/') === 0) {
+                  subItem.fullPath = item.path + subItem.path
                 }else{
-                  subItem.fullPath=item.path+'/'+subItem.path
+                  subItem.fullPath = item.path + '/' + subItem.path
                 }
               }
               arr.push(subItem)
@@ -88,35 +88,37 @@ export default {
           list.push(item)
         }
       })
-      this.listMenu=list
+      this.listMenu = list
       this.checkDefaultActive()
     },
-    //获取菜单激活值
-    checkDefaultActive() {
+    // 获取菜单激活值
+    checkDefaultActive () {
       this.defaultActive = null
-      let urlWindow=''
-      if ( window.location.hash &&window.location.hash.split('#').length > 1) {
-        urlWindow = window.location.hash.split('#')[1]
-      }
+      // history路由
+      let urlWindow = window.location.pathname
+      // hash路由
+      // if ( window.location.hash && window.location.hash.split('#').length > 1) {
+      //   urlWindow = window.location.hash.split('#')[1]
+      // }
       for (let i in this.listMenu) {
         for (let h in this.listMenu[i].children) {
-          let urlItem=this.listMenu[i].children[h].fullPath
-          if (urlWindow && urlItem && urlWindow.indexOf(urlItem) != -1) {
-            this.defaultActive =urlItem
+          let urlItem = this.listMenu[i].children[h].fullPath
+          if (urlWindow && urlItem && urlWindow.indexOf(urlItem) !== -1) {
+            this.defaultActive = urlItem
             return
           }
         }
       }
     },
-    goPage(subItem) {
+    goPage (subItem) {
       if(subItem.meta.notvue) {
-        window.location.href =subItem.path
+        window.location.href = subItem.path
       }else{
         this.$router.push({ name: subItem.name })
       }
     },
-    menuToggle() {
-      this.isCollapse=!this.isCollapse
+    menuToggle () {
+      this.isCollapse = !this.isCollapse
     }
   }
 }

@@ -1,6 +1,6 @@
 // const target = 'https://www.epei360.cn' // 开发环境
 const target = 'http://tqmall.360cec.com' // 测试环境
-// const target = 'http://www.yunpei.com/' // 正式环境
+// const target = 'http://www.yunpei.com' // 正式环境
 
 module.exports = {
   publicPath: process.env.NODE_ENV === 'development' ? '/' : '//js.yunpei.com/pc-activity/dist/',
@@ -19,7 +19,7 @@ module.exports = {
           target: target,
           changeOrigin: true,
           bypass: (req) => {
-            if(req.headers.accept.indexOf('html') !== -1 && req.url.indexOf('index') !== -1) {
+            if(req.headers.accept.indexOf('html') !== -1 ) {
               return '/index'
             }
           },

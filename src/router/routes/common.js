@@ -24,7 +24,7 @@ export default {
         title: '没有权限访问',
         key: 'MENU_HAWK_OPEN',
         hidden: true
-      }, 
+      },
     }
   ]
 }
