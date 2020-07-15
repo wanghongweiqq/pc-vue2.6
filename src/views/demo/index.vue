@@ -352,7 +352,7 @@
 import utils from '@/assets/js/utils'
 import CpCrumbs from '@/components/crumbs/'
 import CpSeeimages from '@/components/seeimages/'
-import ajax from '@/service/modules/demo'
+import ajax from '@/service/apis/demo'
 
 export default {
   components: {
@@ -360,7 +360,7 @@ export default {
     CpSeeimages
   },
   mixins: [utils],
-  data() {
+  data () {
     return {
       query: {
         time: [],
@@ -390,7 +390,7 @@ export default {
           name: 'dfdskdksfa'
         }
       ],
-      //云采状态列表
+      // 云采状态列表
       listStatus: [
         {
           id: 0,
@@ -408,21 +408,21 @@ export default {
       count: 0,
     }
   },
-  created() {
+  created () {
     this.getList()
   },
   methods: {
-    //大图展示
+    // 大图展示
     imageOpen () {
       this.showImg = true
     },
-    //搜索客户
-    querySearchAsync(queryString, cb) {
+    // 搜索客户
+    querySearchAsync (queryString, cb) {
       ajax.searchtList({
         content: utils.trim(queryString),
         page: 1,
         pageSize: 10
-      }).then((res)=>{
+      }).then((res) => {
         if(res.success) {
           if(res.data && res.data.length > 0) {
             cb(res.data)
@@ -432,39 +432,39 @@ export default {
         }
       })
     },
-    //搜索客户点选
-    handleSelect(item) {
-      if(item.companyName&&item.id) {
+    // 搜索客户点选
+    handleSelect (item) {
+      if(item.companyName && item.id) {
         this.query.searchText = item.companyName
       }
     },
-    //分页
-    handleSizeChange(val) {
+    // 分页
+    handleSizeChange (val) {
       this.pageSize = val
       this.currentPage = 1
       this.getList()
     },
-    handleCurrentChange(val) {
+    handleCurrentChange (val) {
       this.currentPage = val
       this.getList()
     },
-    handleSearch() {
+    handleSearch () {
       this.currentPage = 1
       this.getList()
     },
-    clearSearch() {
+    clearSearch () {
       this.query = {}
       this.currentPage = 1
     },
-    goDetail() {
+    goDetail () {
       this.$router.push({ name: 'test01Detail' })
     },
-    getList() {
+    getList () {
       ajax.getList({
         ...utils.filterParams(this.query),
         pageSize: this.pageSize,
         page: this.currentPage
-      }).then((res)=>{
+      }).then((res) => {
         if (res.success) {
           this.count = res.data.totalElements
           if (res.data.content && res.data.content.length > 0) {
